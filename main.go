@@ -2,17 +2,23 @@ package main
 
 import (
 	"log"
-	"net/http"
-	"github.com/anon767/swaggertest/api"
+	"github.com/anon767/swaggertest/restapi"
 	"github.com/anon767/swaggertest/database"
 	_ "github.com/jinzhu/gorm"
+	"github.com/jinzhu/gorm"
 )
 
+type API interface{
+	Start(db * gorm.DB)
+}
+
 func main() {
+
 	log.Printf("Server started")
  	db := database.Bootstrap()
-	router := api.NewRouter(db)
+	var api API = restapi.Api{}
+	api.Start(db)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+
 	defer db.Close()
 }
