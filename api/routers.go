@@ -28,9 +28,9 @@ type Routes []Route
 
 var db *gorm.DB
 
-func NewRouter(db * gorm.DB) *mux.Router {
+func NewRouter(pdb * gorm.DB) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	db = db
+	db = pdb
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc

@@ -10,8 +10,9 @@ import (
 
 func main() {
 	log.Printf("Server started")
-
-	router := api.NewRouter(database.Bootstrap())
+ 	db := database.Bootstrap()
+	router := api.NewRouter(db)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
+	defer db.Close()
 }
